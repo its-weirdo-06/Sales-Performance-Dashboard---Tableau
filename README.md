@@ -1,8 +1,10 @@
-Sales Performance Dashboard – Tableau
-Description:
+# Sales Performance Dashboard – Tableau
+
+## Description:
 Designed an interactive Sales Performance Dashboard in Tableau to analyze and visualize key sales metrics across various customer segments, product categories, and regions. The dashboard enables data-driven decision-making by providing actionable insights into sales trends, profit distribution, and order behavior over time.
 
-Key Features:
+##Key Features:
+
 Sales KPIs including Total Sales, Total Profit, Avg. Discount, Avg. Order Quantity, and Avg. Delivery Time
 
 Sales breakdown by Customer Segment and Product Category
@@ -15,7 +17,7 @@ Customer Profit vs Sales visual correlation
 
 Interactive filters for drilling down into time periods, segments, or categories
 
-Key Tables:
+## Key Tables:
 orders
 
 customers
@@ -26,11 +28,11 @@ regions
 
 sales
 
-Script (Table Definitions in SQL):
+## Script (Table Definitions in SQL):
 sql
-Copy
-Edit
--- Create table for customer details
+
+### -- Create table for customer details
+
 CREATE TABLE customers (
     customer_id INT PRIMARY KEY,
     customer_name VARCHAR(100),
@@ -39,7 +41,9 @@ CREATE TABLE customers (
     region VARCHAR(50)
 );
 
--- Create table for product information
+
+### -- Create table for product information
+
 CREATE TABLE products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(100),
@@ -49,7 +53,8 @@ CREATE TABLE products (
     product_base_margin DECIMAL(5,2)
 );
 
--- Create table for sales orders
+### -- Create table for sales orders
+
 CREATE TABLE orders (
     order_id INT PRIMARY KEY,
     row_id INT,
@@ -68,23 +73,27 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
-Sample Queries:
+
+
+## Sample Queries:
+
 sql
-Copy
-Edit
+
 -- Total Sales and Profit
 SELECT 
     SUM(sales) AS total_sales, 
     SUM(profit) AS total_profit 
 FROM orders;
 
--- Average Discount and Order Quantity
+### -- Average Discount and Order Quantity
+
 SELECT 
     AVG(discount) AS avg_discount,
     AVG(order_quantity) AS avg_order_quantity
 FROM orders;
 
--- Sales by Customer Segment and Product Category
+### -- Sales by Customer Segment and Product Category
+
 SELECT 
     c.customer_segment, 
     p.product_category, 
@@ -94,7 +103,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id
 GROUP BY c.customer_segment, p.product_category;
 
--- Orders by Region and Category
+### -- Orders by Region and Category
+
 SELECT 
     c.region, 
     p.product_category, 
@@ -104,7 +114,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id
 GROUP BY c.region, p.product_category;
 
--- Profit Binned in Ranges (1k bins)
+### -- Profit Binned in Ranges (1k bins)
+
 SELECT 
     FLOOR(profit / 1000) * 1000 AS profit_bin, 
     COUNT(*) AS order_count 
